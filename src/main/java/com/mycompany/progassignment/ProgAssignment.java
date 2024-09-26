@@ -31,5 +31,14 @@ public class ProgAssignment {
         System.out.println("Enter your last name: ");
         lastName = scan.nextLine();
         
+        do{
+            System.out.println("Enter your username: ");
+            username = scan.next();
+        } while(!check_all.checkUsername(username));
+        
+        do{
+            System.out.println("Enter your password: ");
+            password = scan.next();
+        } while(!check_all.checkPassword(password));
 }
 }
