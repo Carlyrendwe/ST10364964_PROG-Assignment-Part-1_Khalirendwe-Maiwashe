@@ -40,5 +40,12 @@ public class ProgAssignment {
             System.out.println("Enter your password: ");
             password = scan.next();
         } while(!check_all.checkPassword(password));
+        
+        // Authentication check
+        if (check_all.authenticate(username, password)) {
+            System.out.println("Welcome " + firstName + " " + lastName + ". It is great to see you again.");
+        } else {
+            System.out.println("Username or password incorrect, please try again.");
+        }
 }
 }
