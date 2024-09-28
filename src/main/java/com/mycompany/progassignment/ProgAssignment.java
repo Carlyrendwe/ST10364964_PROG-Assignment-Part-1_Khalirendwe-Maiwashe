@@ -20,10 +20,10 @@ public class ProgAssignment {
         Scanner scan = new Scanner(System.in);
         
         // Declarations
-        String username = "car_l";
-        String password = "Ladydee7*";
-        String firstName = "Khali";
-        String lastName = "Maiwashe";
+        String username;
+        String password;
+        String firstName;
+        String lastName;
         
         //Prompts for first and last name
         System.out.println("Enter your first name: ");
@@ -42,7 +42,7 @@ public class ProgAssignment {
         } while(!check_all.checkPassword(password));
         
         // Authentication check
-        if (check_all.authenticate(username, password)) {
+        if (check_all.returnLoginStatus(username, password)) {
             System.out.println("Welcome " + firstName + " " + lastName + ". It is great to see you again.");
         } else {
             System.out.println("Username or password incorrect, please try again.");
