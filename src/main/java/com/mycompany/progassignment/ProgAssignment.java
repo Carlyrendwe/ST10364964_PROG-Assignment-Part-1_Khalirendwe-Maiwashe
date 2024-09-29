@@ -14,7 +14,7 @@ public class ProgAssignment {
 
     public static void main(String[] args) {
         //Login instance
-        LoginExternalClass check_all = new LoginExternalClass();
+        LoginExternalClass check_all = new LoginExternalClass(" ", " ", " ", " ");
         
         //Object for scanner
         Scanner scan = new Scanner(System.in);
@@ -31,21 +31,34 @@ public class ProgAssignment {
         System.out.println("Enter your last name: ");
         lastName = scan.nextLine();
         
-        do{
-            System.out.println("Enter your username: ");
+        // Register the user (ensuring both username and password are valid)
+        String registrationResult;
+        do {
+            System.out.println("Enter your username (must contain an underscore and no more than 5 characters): ");
             username = scan.next();
-        } while(!check_all.checkUsername(username));
-        
-        do{
-            System.out.println("Enter your password: ");
+            System.out.println("Enter your password (at least 8 characters, including a capital letter, a number, and a special character): ");
             password = scan.next();
-        } while(!check_all.checkPassword(password));
+
+            // Register the user with provided credentials
+            registrationResult = check_all.registerUser(username, password, firstName, lastName);
+
+            System.out.println(registrationResult); // Show registration result
+        } while (!registrationResult.equals("Registration successful!")); // Repeat if not successful
         
-        // Authentication check
-        if (check_all.returnLoginStatus(username, password)) {
+        // After successful registration, prompt user to log in
+        System.out.println("===Now, please log in.===");
+        System.out.println("Enter your username to login: ");
+        username = scan.next();
+        System.out.println("Enter your password to login: ");
+        password = scan.next();
+        
+        
+        
+        // Attempt to log in with entered credentials
+        if (check_all.loginUser(username, password)) {
             System.out.println("Welcome " + firstName + " " + lastName + ". It is great to see you again.");
         } else {
-            System.out.println("Username or password incorrect, please try again.");
+            System.out.println("Login failed. Incorrect username or password.");
         }
-}
+    }
 }
