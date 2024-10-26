@@ -64,20 +64,7 @@ class LoginExternalClass {
         return Found;
 }
     
-   //Authenticate user with username and password
-    public boolean returnLoginStatus(String username, String password) {
-        boolean match = false;
-        
-        if(username.equals(loginUsername) && password.equals(loginPassword)) {
-            match = true;
-            System.out.println("Login Successful! ");
-        } else {
-            match = false;
-            System.out.println("Login Unsuccessful! ");
-        }
-        
-        return match;
-    }   
+   
     
     // Method to register the user and check the username and password validity
     public String registerUser(String username, String password, String firstName, String lastName) {
@@ -120,7 +107,32 @@ class LoginExternalClass {
         return Found;
     }
     
+    /*public boolean loginUser(String username, String password){
+    return username.equals(this.username) && password.equals(this.password);
+    }
+    */
     
+    //Authenticate user with username and password
+    public boolean returnLoginStatus(String username, String password) {
+        boolean match = false;
+        
+        if(username.equals(loginUsername) && password.equals(loginPassword)) {
+            match = true;
+            System.out.println("Login Successful! ");
+        } else {
+            match = false;
+            System.out.println("Login Unsuccessful! ");
+        }
+        
+        return match;
+    }   
     
+    /*
+    public String returnStatusLogin(boolean login){
+        if(login){
+            return "Welcome " + firstname + " " + lastname + ", It is great to see you. ";
+    }
+    return "Username/Password is incorrect. Try again.";
+    */
     
 }
