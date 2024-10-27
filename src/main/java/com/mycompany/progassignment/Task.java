@@ -45,15 +45,21 @@ public class Task {
                      
                      
                      boolean descCheck = false;
-                    String description = ""; // Initialize the description variable
+                    String description = " "; // Initialize the description variable
 
                     while (!descCheck) {
                         description = JOptionPane.showInputDialog("Enter Task Description:");
+                        
+                        if (description ==null) {
+                            JOptionPane.showMessageDialog(null, "Task description entry was canceled.");
+                            break; // Exit if canceled
+                        }
 
                         // Check if the description is within 50 characters
                         if (description.length() <= 50) {
                             descCheck = true; // Set to true to exit the loop
                             JOptionPane.showMessageDialog(null, "Task description successfully entered");
+                            taskDescription[i] = description; // Store the validated description
                         } else {
                             JOptionPane.showMessageDialog(null, "Description is too long! Please enter 50 characters or less.");
                         }
@@ -115,12 +121,12 @@ public class Task {
     
     // Method to print all task details
     public String printTaskDetails(int point, String taskID ) {
-        return "Task Status: " + choice[point] + "\n" +
-                "Developer Details: " + developerDetails[point] + " " + "\n" +
+        return "Task Name: " + taskName[point] + "\n" +
                 "Task Number: " + taskNumber[point] + "\n" +
-                "Task Name: " + taskName[point] + "\n" +
                 "Task Description: " + taskDescription[point] + "\n" +
+                "Developer Details: " + developerDetails[point] + " " + "\n" +
                 "Task ID: " + taskID + "\n" +
+                "Task Status: " + choice[point] + "\n" +
                 "Task Duration: " + taskDuration[point] + " hours";
     }
     
