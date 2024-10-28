@@ -80,6 +80,11 @@ public class Task {
     
     // Method to check if the task description is valid
     public static boolean checkTaskDescription(String description) {
+        if(description.length() <= 50){
+            System.out.println("Task successfully captured");
+        }else{
+            System.out.println("Please enter a task description of less than 50 characters");
+        }
         return description.length() <= 50;  
     }
     
