@@ -12,13 +12,13 @@ import javax.swing.*;
  * @author RC_Student_lab
  */
 public class Task {
-    private static String[] taskName;
-    private static int[] taskNumber;
-    private static String[] taskDescription;
-    private static String[] developerDetails;
-    private static double[] taskDuration;
-    private static String[] taskID;
-    private static String[] taskDetails;
+    public String[] taskName;
+    public int[] taskNumber;
+    public String[] taskDescription;
+    public  String[] developerDetails;
+    public  double[] taskDuration;
+    public  String[] taskID;
+    public  String[] taskDetails;
     private static int count = 0;
     private static int duration;
     private static String[] choice;
@@ -88,6 +88,7 @@ public class Task {
         return description.length() <= 50;  
     }
     
+    //Method to get specific characters from the task name and the developer details
     public String createTaskID(String taskName, String developerDetails, int taskNumber) {
         String initial = taskName.length() >= 2? taskName.substring(0,2).toUpperCase(): taskName.toUpperCase();
         String suffix = developerDetails.length() >= 2? developerDetails.substring(0,2).toUpperCase(): developerDetails.toUpperCase();
@@ -95,6 +96,7 @@ public class Task {
          return initial + ":" + taskNumber + ":" + suffix; 
     }
     
+    //Method to select a task status and check if the option selected is on the menu provided
     public static String taskStatus(){
         String status = " ";
         boolean valid = false;
