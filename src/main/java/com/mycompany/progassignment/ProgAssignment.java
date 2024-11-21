@@ -13,6 +13,8 @@ import javax.swing.*;
 public class ProgAssignment {
 
     public static void main(String[] args) {
+        //PART 1
+        
         //Login instance
         LoginExternalClass check_all = new LoginExternalClass(" ", " ", " ", " ");
 
@@ -64,9 +66,10 @@ public class ProgAssignment {
             System.out.println("Login failed. Incorrect username or password.");
         }
 
-        
+        //============ PART 2 ================
         if(loginCheck){
         Task task = new Task();
+        TaskManagement taskManage = new TaskManagement();
         
         JOptionPane.showMessageDialog(null, "Welcome to Easy Kanban");
         Task[] tasks = null;
@@ -84,17 +87,35 @@ public class ProgAssignment {
 
         boolean exit = false;
         while (!exit) {
-            int option = Integer.parseInt(JOptionPane.showInputDialog("1. Add task \n 2. Show report\n 3. Exit"));
+            int option = Integer.parseInt(JOptionPane.showInputDialog(null,
+                    "1. Add task \n "
+                            + "2. Show report\n "
+                            + "3. View all completed tasks\n "
+                            + "4. Display task with longest duration\n "
+                            + "5. Search for task\n "
+                            + "6. Search for task by developer name\n "
+                            + "7. Delete a task\n\n "
+                            + "0. Exit", "Welcome to EasyKanban", JOptionPane.PLAIN_MESSAGE));
 
             switch (option) {
                 case 1:
                     task.addTask();
                 case 2:
                     // Show a message for "Coming soon" for the report
-                    JOptionPane.showMessageDialog(null, "Show report feature is coming soon!", "Feature Under Development", JOptionPane.INFORMATION_MESSAGE);
+                    //JOptionPane.showMessageDialog(null, "Show report feature is coming soon!", "Feature Under Development", JOptionPane.INFORMATION_MESSAGE);
+                    taskManage.displayReport();
                     break;
-
                 case 3:
+                    taskManage.displayDoneTasks();
+                case 4:
+                    taskManage.displayLongestDurationTask();
+                case 5:
+                    taskManage.searchTaskByName();
+                case 6:
+                    taskManage.searchTasksByDeveloper();
+                case 7:
+                    taskManage.deleteTaskByName();
+                case 0:
                     JOptionPane.showMessageDialog(null, "Exiting program. Goodbye!");
                     exit = true;
                     break;
@@ -104,5 +125,9 @@ public class ProgAssignment {
             }
         }
     }
+        
+        
+        
+        
     }
 }

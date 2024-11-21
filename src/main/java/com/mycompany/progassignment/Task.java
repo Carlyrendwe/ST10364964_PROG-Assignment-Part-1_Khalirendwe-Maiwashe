@@ -5,7 +5,7 @@
 package com.mycompany.progassignment;
 
 
-import java.util.ArrayList;
+
 import javax.swing.*;
 /**
  *
@@ -21,7 +21,7 @@ public class Task {
     public  String[] taskDetails;
     private static int count = 0;
     private static int duration;
-    private static String[] choice;
+    public String[] choice;
     
     
     
@@ -61,6 +61,7 @@ public class Task {
                             JOptionPane.showMessageDialog(null, "Task description successfully entered");
                             taskDescription[i] = description; // Store the validated description
                         } else {
+                            descCheck = false;
                             JOptionPane.showMessageDialog(null, "Description is too long! Please enter 50 characters or less.");
                         }
                     }
@@ -76,6 +77,7 @@ public class Task {
                      JOptionPane.showMessageDialog(null, "TASK DETAILS\n" + printTaskDetails(i, taskID[i]));
                      }
                     
+                     
     }
     
     // Method to check if the task description is valid
