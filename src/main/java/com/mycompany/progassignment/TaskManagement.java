@@ -24,125 +24,174 @@ public class TaskManagement {
     private static int count = 0;
     private static int duration;
     public String[] choice;
-        
-    public ArrayList<String> developers = new ArrayList<>();
-    public ArrayList<String> taskNames = new ArrayList<>();
-    public ArrayList<String> taskIDs = new ArrayList<>();
-    public ArrayList<Double> taskDurations = new ArrayList<>();
-    public ArrayList<String> taskDescriptions = new ArrayList<>();
-    public ArrayList<String> taskStatuses = new ArrayList<>();
     
+     private static int totalTasks = 0; // Declare totalTasks to track number of tasks
     
+    // Declare arrays
     
-    public void displayReport() {
-    if (taskNames.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "No tasks to display.");
-        return;
+    int numTasks = 0;
+        String[] developers = new String[numTasks];
+        String[] taskNames = new String[numTasks];
+        String[] taskIDs = new String[numTasks];
+        int[] taskDurations = new int[numTasks];
+        String[] taskStatus = new String[numTasks];
+    
+    public Task task; // Reference to the shared Task object
+
+    // Constructor to initialize the shared Task object
+    public TaskManagement(Task task) {
+        this.task = task;
+    }
+    
+     // Constructor to initialize the task arrays
+    public TaskManagement(String[] taskNames, String[] developerDetails, double[] taskDurations, String[] taskStatus) {
+        this.taskName = taskNames;
+        this.developerDetails = developerDetails;
+        this.taskDuration = taskDurations;
+        this.choice = taskStatus;
+    }
+  
+    public String displayReport() {
+
+        if (totalTasks == 0) {
+        return "No tasks to display."; // Return message instead of showing dialog
     }
 
-    StringBuilder report = new StringBuilder("Full Task Report:\n");
-    for (int i = 0; i < taskNames.size(); i++) {
-        report.append("Developer: ").append(developerDetails[i]).append("\n")
-              .append("Task Name: ").append(taskName[i]).append("\n")
-              .append("Task ID: ").append(taskID[i]).append("\n")
-              .append("Task Duration: ").append(taskDuration[i]).append(" hours\n")
-              .append("Task Description: ").append(taskDescription[i]).append("\n")
-              .append("Task Status: ").append(taskStatuses.get(i)).append("\n\n");
+    String report = "Full Task Report:\n";
+    for (int i = 0; i < totalTasks; i++) {
+        report += "Task Number: " + i + "\n"
+                + "Task Name: " + taskName[i] + "\n"
+                + "Task Description: " + taskDescription[i] + "\n"
+                + "Developer: " + developerDetails[i] + "\n"
+                + "Task ID: " + taskID[i] + "\n"
+                + "Task Duration: " + taskDuration[i] + " hours\n"
+                + "Task Status: " + taskStatus[i] + "\n\n";
     }
 
-    JOptionPane.showMessageDialog(null, report.toString(), "Task Report", JOptionPane.INFORMATION_MESSAGE);
+    return report; // Return the report as a string instead of showing it
 }
     
-    public void deleteTaskByName() {
-    String taskNameToDelete = JOptionPane.showInputDialog("Enter Task Name to Delete:");
-    int index = taskNames.indexOf(taskNameToDelete);
-
-    if (index != -1) {
-        developers.remove(index);
-        taskNames.remove(index);
-        taskIDs.remove(index);
-        taskDurations.remove(index);
-        taskDescriptions.remove(index);
-        taskStatuses.remove(index);
-
-        JOptionPane.showMessageDialog(null, "Task '" + taskNameToDelete + "' deleted successfully.");
-    } else {
-        JOptionPane.showMessageDialog(null, "Task not found.");
-    }
-}
     
-    public void displayLongestDurationTask() {
-    if (taskDurations.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "No tasks to analyze.");
-        return;
+    public void deleteTaskByName(String taskNameToDelete) {
+
+//String taskNameToDelete = JOptionPane.showInputDialog("Enter Task Name to Delete:");
+        boolean found = false;
+
+        for (int i = 0; i < task.taskName.length; i++) {
+            if (task.taskName[i] != null && task.taskName[i].equalsIgnoreCase(taskNameToDelete)) {
+                // "Delete" the task by setting array values to null
+                task.taskName[i] = null;
+                task.taskDescription[i] = null;
+                task.developerDetails[i] = null;
+                task.taskID[i] = null;
+                task.taskDuration[i] = 0;
+                task.choice[i] = null;
+                found = true;
+                JOptionPane.showMessageDialog(null, "Task '" + taskNameToDelete + "' deleted successfully.");
+                break;
+            }
+        }
+
+        if (!found) {
+            JOptionPane.showMessageDialog(null, "Task not found.");
+        }
     }
+    
+    
+    public String[] displayLongestDurationTask(int[] durations) {
+    int maxDurationIndex = 0;
 
-    double maxDuration = 0;
-    int maxIndex = 0;
-
-    for (int i = 0; i < taskDurations.size(); i++) {
-        if (taskDurations.get(i) > maxDuration) {
-            maxDuration = taskDurations.get(i);
-            maxIndex = i;
+    // Find the index of the task with the longest duration
+    for (int i = 1; i < durations.length; i++) {
+        if (durations[i] > durations[maxDurationIndex]) {
+            maxDurationIndex = i;
         }
     }
 
-    String message = "Developer: " + developers.get(maxIndex) +
-                     "\nTask Name: " + taskNames.get(maxIndex) +
-                     "\nDuration: " + maxDuration + " hours";
-
-    JOptionPane.showMessageDialog(null, message, "Longest Task Duration", JOptionPane.INFORMATION_MESSAGE);
+    // Return the task name and its duration
+    return new String[]{taskName[maxDurationIndex], String.valueOf(taskDuration[maxDurationIndex])};
 }
+    /*public String displayLongestDurationTask() {
+
+double maxDuration = -1;
+        int maxIndex = -1;
+
+        for (int i = 0; i < task.taskDuration.length; i++) {
+            if (task.taskName[i] != null && task.taskDuration[i] > maxDuration) {
+                maxDuration = task.taskDuration[i];
+                maxIndex = i;
+            }
+        }
+
+        if (maxIndex != -1) {
+            return "Developer: " + developerDetails[maxIndex] +
+                   "\nTask Name: " + taskName[maxIndex] +
+                   "\nDuration: " + taskDuration[maxIndex] + " hours";
+        } else {
+            return "No tasks to analyze.";
+        }
+    }*/
     
     public void displayDoneTasks() {
-    StringBuilder doneTasks = new StringBuilder("Tasks with Status 'Done':\n");
+        String doneTasks = "Completed Tasks:\n";
+        boolean found = false;
 
-    for (int i = 0; i < taskStatuses.size(); i++) {
-        if (taskStatuses.get(i).equalsIgnoreCase("Done")) {
-            doneTasks.append("Developer: ").append(developers.get(i))
-                    .append(", Task Name: ").append(taskNames.get(i))
-                    .append(", Duration: ").append(taskDurations.get(i)).append(" hours\n");
+        for (int i = 0; i < task.choice.length; i++) {
+            if (task.choice[i] != null && task.choice[i].equalsIgnoreCase("Done")) {
+                doneTasks += "Task Number: " + i + "\n"
+                        + "Developer: " + task.developerDetails[i] + "\n"
+                        + "Task Name: " + task.taskName[i] + "\n"
+                        + "Task ID: " + task.taskID[i] + "\n"
+                        + "Task Duration: " + task.taskDuration[i] + " hours\n\n";
+                found = true;
+            }
+        }
+
+        if (!found) {
+            JOptionPane.showMessageDialog(null, "No completed tasks found.");
+        } else {
+            JOptionPane.showMessageDialog(null, doneTasks, "Completed Tasks", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
-    if (doneTasks.length() == "Tasks with Status 'Done':\n".length()) {
-        JOptionPane.showMessageDialog(null, "No tasks with status 'Done'.");
-    } else {
-        JOptionPane.showMessageDialog(null, doneTasks.toString());
-    }
-}
     
     public void searchTaskByName() {
-    String taskNameToSearch = JOptionPane.showInputDialog("Enter Task Name to Search:");
-    int index = taskNames.indexOf(taskNameToSearch);
+        String searchName = JOptionPane.showInputDialog("Enter Task Name to Search:");
 
-    if (index != -1) {
-        String message = "Task Name: " + taskNames.get(index) +
-                         "\nDeveloper: " + developers.get(index) +
-                         "\nTask Status: " + taskStatuses.get(index);
-        JOptionPane.showMessageDialog(null, message, "Task Found", JOptionPane.INFORMATION_MESSAGE);
-    } else {
-        JOptionPane.showMessageDialog(null, "Task not found.", "Error", JOptionPane.ERROR_MESSAGE);
+        for (int i = 0; i < task.taskName.length; i++) {
+            if (task.taskName[i] != null && task.taskName[i].equalsIgnoreCase(searchName)) {
+                JOptionPane.showMessageDialog(null, "Task Found:\n"
+                        + "Task Number: " + i + "\n"
+                        + "Developer: " + task.developerDetails[i] + "\n"
+                        + "Task Name: " + task.taskName[i] + "\n"
+                        + "Task ID: " + task.taskID[i] + "\n"
+                        + "Task Duration: " + task.taskDuration[i] + " hours\n"
+                        + "Task Status: " + task.choice[i], "Task Search Result", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Task not found.");
     }
-}
     
     public void searchTasksByDeveloper() {
-    String developerToSearch = JOptionPane.showInputDialog("Enter Developer Name to Search Tasks:");
-    StringBuilder tasks = new StringBuilder("Tasks for Developer: " + developerToSearch + "\n");
+        String developerName = JOptionPane.showInputDialog("Enter Developer's Name to Search:");
+        String developerTasks = "Tasks for Developer: " + developerName + "\n";
+        boolean found = false;
 
-    for (int i = 0; i < developers.size(); i++) {
-        if (developers.get(i).equalsIgnoreCase(developerToSearch)) {
-            tasks.append("Task Name: ").append(taskNames.get(i))
-                 .append(", Status: ").append(taskStatuses.get(i)).append("\n");
+        for (int i = 0; i < task.developerDetails.length; i++) {
+            if (task.developerDetails[i] != null && task.developerDetails[i].equalsIgnoreCase(developerName)) {
+                developerTasks += "Task Number: " + i + "\n"
+                        + "Task Name: " + task.taskName[i] + "\n"
+                        + "Task ID: " + task.taskID[i] + "\n"
+                        + "Task Duration: " + task.taskDuration[i] + " hours\n"
+                        + "Task Status: " + task.choice[i] + "\n\n";
+                found = true;
+            }
+            }
+
+        if (!found) {
+            JOptionPane.showMessageDialog(null, "No tasks found for developer: " + developerName);
+        } else {
+            JOptionPane.showMessageDialog(null, developerTasks, "Developer Tasks", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
-    if (tasks.length() == ("Tasks for Developer: " + developerToSearch + "\n").length()) {
-        JOptionPane.showMessageDialog(null, "No tasks found for the developer.");
-    } else {
-        JOptionPane.showMessageDialog(null, tasks.toString());
     }
-}
-    
-    
-}

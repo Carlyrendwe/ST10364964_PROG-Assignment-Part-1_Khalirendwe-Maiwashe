@@ -66,10 +66,10 @@ public class ProgAssignment {
             System.out.println("Login failed. Incorrect username or password.");
         }
 
-        //============ PART 2 ================
+        //============ PART 2 & 3 ================
         if(loginCheck){
         Task task = new Task();
-        TaskManagement taskManage = new TaskManagement();
+        TaskManagement taskManage = new TaskManagement(task);
         
         JOptionPane.showMessageDialog(null, "Welcome to Easy Kanban");
         Task[] tasks = null;
@@ -107,14 +107,19 @@ public class ProgAssignment {
                     break;
                 case 3:
                     taskManage.displayDoneTasks();
+                    break;
                 case 4:
                     taskManage.displayLongestDurationTask();
+                    break;
                 case 5:
                     taskManage.searchTaskByName();
+                    break;
                 case 6:
                     taskManage.searchTasksByDeveloper();
+                    break;
                 case 7:
                     taskManage.deleteTaskByName();
+                    break;
                 case 0:
                     JOptionPane.showMessageDialog(null, "Exiting program. Goodbye!");
                     exit = true;
